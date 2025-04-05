@@ -75,11 +75,12 @@ def copyPlaylist(sp, playlist_id_1, playlist_id_2):
     pass
 
 if __name__ == "__main__":
-    username = "Lil Na"
-    client_id = 'f5748c39b6eb46d495bcc41f161ef0c8'
-    client_secret = 'a7d454142d5247ea9a7c4020d003a6af'
+    username = ""
+    client_id = ""
+    client_secret = ""
     client_redirect = 'http://localhost:8000'
     scope = "playlist-modify-public"
+    playlist_id = ""
 
     #Authorization
     client_credentials_manager = spotipy.SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
@@ -87,7 +88,6 @@ if __name__ == "__main__":
 
     sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager,auth=token)
 
-    playlist_id = '0LVCb93GAzod0uYoMbjpMk'
     playlist_size = 536
     
     songs = getSongs(sp,playlist_id,playlist_size)
