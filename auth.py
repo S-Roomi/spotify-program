@@ -8,8 +8,6 @@ def getSongs(sp, id, size):
     # with open("spotifyInfo.json", "w") as outfile: 
     #     json.dump(user_playlist["items"], outfile, indent=1)
 
-
-
     playlist_offset = 0
     keepIterate = True
 
@@ -71,8 +69,6 @@ def addSongs(sp, playlist_id):
         sp.playlist_add_items(playlist_id=playlist_id, items=list_of_id)
 
 
-def copyPlaylist(sp, playlist_id_1, playlist_id_2):
-    pass
 
 if __name__ == "__main__":
     username = ""
@@ -81,6 +77,7 @@ if __name__ == "__main__":
     client_redirect = 'http://localhost:8000'
     scope = "playlist-modify-public"
     playlist_id = ""
+    playlist_size = 0
 
     #Authorization
     client_credentials_manager = spotipy.SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
@@ -88,13 +85,11 @@ if __name__ == "__main__":
 
     sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager,auth=token)
 
-    playlist_size = 536
     
     songs = getSongs(sp,playlist_id,playlist_size)
 
-
     addSongs(sp, playlist_id)
-    # removeDuplicate(songs, playlist_id)
+    removeDuplicate(songs, playlist_id)
 
 
 
