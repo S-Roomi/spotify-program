@@ -5,3 +5,7 @@ lib
 spotifyInfo.json
 include
 .gitignore
+venv
+.env
+settings.json
+src/__pycache__/playlist.cpython-312.pyc
