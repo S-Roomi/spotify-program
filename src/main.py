@@ -1,14 +1,12 @@
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
-from playlist import Playlist
+from playlist import Temp_name
 
 from dotenv import load_dotenv
 load_dotenv()
 
 if __name__ == "__main__":
-    username = "Lil Na"
     playlist_id = '0LVCb93GAzod0uYoMbjpMk'
-    playlist_size = 0
 
     scope = "playlist-modify-public"
 
@@ -16,7 +14,7 @@ if __name__ == "__main__":
     api_client = spotipy.Spotify(auth_manager = SpotifyOAuth(scope=scope))
 
     # create Playlist object
-    user_playlist = Playlist(api_client, playlist_id)
+    user = Temp_name(api_client, playlist_id)
     
 
 
