@@ -15,7 +15,7 @@ if __name__ == "__main__":
 
     # create Playlist object
     user = Temp_name(api_client, playlist_id)
-    
+    user.add_song(name='Love', artist='Kendrick')
 
 
 
