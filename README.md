@@ -1,6 +1,7 @@
 ### Spotify Playlist Duplicator
 
-This program is currently a simple script that takes a spotify playlist and copies it into another one. It also removes duplicate songs. 
+Still being worked on. Adding more functionality each day. So far, we can get user playlist and find and get songs from the playlist.
+Currently working on adding songs to user playlist
 
 ##### Dependencies
 This program was coded in python 3.12
