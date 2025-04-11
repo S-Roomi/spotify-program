@@ -6,16 +6,16 @@ import json
 class Temp_name:
 
     # TODO DO check if valid parameters were passed
-    def __init__(self, api_client, playlist_id, create_file=False):
+    def __init__(self, api_client, playlist_id:str, create_file=False):
         self.api_client = api_client
-        self.playlist_id = playlist_id
+        self.playlist_id:str = playlist_id
 
 
         # The function 'playlist' will fetch a playlist with the given playlist id. Returns a dict
-        self.playlist = self.api_client.playlist(self.playlist_id)
+        self.playlist:dict = self.api_client.playlist(self.playlist_id)
 
         # Get number of songs in playlist
-        self.playlist_size = self.playlist['tracks']['total']
+        self.playlist_size:int = self.playlist['tracks']['total']
         
         
         if create_file == True:
