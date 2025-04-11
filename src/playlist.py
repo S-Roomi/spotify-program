@@ -85,14 +85,17 @@ class Temp_name:
         search_data = self.api_client.search(q=query, type='track', limit=item_count)
 
         song_name = None
+        song_uri = None
         song_artists = []
 
         for item in search_data['tracks']['items']:
             song_name = item['name']
+            song_uri = item['uri']
             for artist in item['artists']:
                 song_artists.append(artist['name'])
             
 
+        # check if song is correct
         print(f'Is this the song you were looking for: {song_name} by ', end='')
         
         for i in range(len(song_artists)):
@@ -102,8 +105,11 @@ class Temp_name:
             else:
                 print(f" and {song_artists[i]}.")
 
+        # TODO Add user check here. See if this is the right song that they wanted
 
-        # self.api_client.playlist_add_items(self.playlist_id, ['spotify:track:7dJYggqjKo71KI9sLzqCs8'],self.playlist_size)
+        self.api_client.playlist_add_items(self.playlist_id, [f'{song_uri}'], self.playlist_size)
+        self.playlist_size += 1
+
 
     def remove_song(self):
         pass
