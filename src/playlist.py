@@ -14,7 +14,7 @@ class Temp_name:
         # The function 'playlist' will fetch a playlist with the given playlist id. Returns a dict
         self.playlist:dict = self.api_client.playlist(self.playlist_id)
 
-        # Get number of songs in playlist
+        # Get number of tracks in playlist
         self.playlist_size:int = self.playlist['tracks']['total']
         
         
@@ -27,31 +27,33 @@ class Temp_name:
     def get_playlist(self):
         return self.playlist
 
-    def get_songs(self):
+    def get_tracks(self):
         """
-        Returns a list of song names that were found in the given playlist
+        Returns a list of track names that were found in the given playlist
         """
-        song_list = []
+        track_list = []
 
         for item in self.playlist['tracks']['items']:
-            song_list.append(item['track']['name'])
+            track_list.append(item['track']['name'])
         
-        return song_list
+        return track_list
         
         
-    def find_song(self, song_name, song_list=None):
+    def find_track(self, track_name):
         """
-        Takes in a song name and searches for that song. Uses playlist from given playlist_id.
-        If a song list was passed as a parameter, iterate over the song list
+        Takes in a track name and searches for that track. Uses playlist from given playlist_id.
         """
 
-        if not song_name:
-            print("Need valid song name.")
+        if not track_name:
+            print("Need valid track name.")
             return None
-    
+        
+        index = 0
+
         for item in self.playlist['tracks']['items']:
-            if item['track']['name'] == song_name:
-                return item['track']
+            if item['track']['name'] == track_name:
+                return [item['track'], index]
+            index += 1
         
         return None
     
@@ -71,7 +73,7 @@ class Temp_name:
 
 
     
-    def add_song(self, name, artist = None):
+    def add_track(self, name, artist = None):
 
         query = None
         
@@ -84,33 +86,42 @@ class Temp_name:
 
         search_data = self.api_client.search(q=query, type='track', limit=item_count)
 
-        song_name = None
-        song_uri = None
-        song_artists = []
+        track_name = None
+        track_uri = None
+        track_artists = []
 
         for item in search_data['tracks']['items']:
-            song_name = item['name']
-            song_uri = item['uri']
+            track_name = item['name']
+            track_uri = item['uri']
             for artist in item['artists']:
-                song_artists.append(artist['name'])
+                track_artists.append(artist['name'])
             
 
-        # check if song is correct
-        print(f'Is this the song you were looking for: {song_name} by ', end='')
-        
-        for i in range(len(song_artists)):
+        # check if track is correct
+        print(f'Is this the track you were looking for: {track_name} by ', end='')
+        [print(x) for x in track_artists] # not the best way to print a list but saw it online and though it looked cool
 
-            if i + 1 < len(song_artists):
-                print(f'{song_artists[i]},', end='')
-            else:
-                print(f" and {song_artists[i]}.")
+        # TODO Add user check here. See if this is the right track that they wanted
 
-        # TODO Add user check here. See if this is the right song that they wanted
-
-        self.api_client.playlist_add_items(self.playlist_id, [f'{song_uri}'], self.playlist_size)
+        self.api_client.playlist_add_items(self.playlist_id, [f'{track_uri}'], self.playlist_size)
         self.playlist_size += 1
 
 
-    def remove_song(self):
-        pass
+    def remove_track(self, track_name:str, first_occurrence=False, all_occurrence=False):
+        track = self.find_track(track_name)
+        
+        if track == None:
+            print("Track does not exist")
+            return None
+
+        if all_occurrence == True:
+            self.api_client.playlist_remove_all_occurrences_of_items(self.playlist_id, [f'{track[0]['uri']}'])
+        elif first_occurrence == True: # TODO always removes all occurrences.
+            # Not sure if I can remove specific indexes. Documentation of playlist_remove_specific_occurrences_of_items mentions all items. 
+            item = [{'uri': track[0]['uri'], 'positions':[track[1]]}]
+            print(track[1])
+            self.api_client.playlist_remove_specific_occurrences_of_items(self.playlist_id, item)
+        else:
+            print("Please define if you wish to remove the first occurrence of a song or all occurrences of a song")
+            return None
     
